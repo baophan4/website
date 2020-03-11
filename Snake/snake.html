@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                background-color:antiquewhite;
+                color:black;
+                font-size:32px;
+                text-align:center;
+            }    
+
+        </style>
+        <title> Snake </title>
+    </head>
+    <body>
+        
+        <h1>Snake</h1>
+        <p> </p>
+        <canvas id="myCanvas" width="1000" height="1000" style="border:1px solid #000000;">
+        </canvas>
+       
+       <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d')
+        
+        let snakeSize = 50;
+        let speed = 1;
+        let width = 1000;
+
+        let xMove = 0;
+        let yMove = 0;
+        let makeFood = true;
+
+        let xFood = 0;
+        let yFood = 0;
+        let eat = [];
+        let snake = [[10,10]];
+
+        movement(speed);
+        //snakeRender();
+
+
+        function food(){
+         
+            if (makeFood){
+                xFood = Math.floor(Math.random()*width/snakeSize);
+                yFood = Math.floor(Math.random()*width/snakeSize);
+                makeFood = false;
+                console.log("Food is " + [xFood,yFood]);
+            }
+
+            ctx.fillStyle = 'green';
+            ctx.fillRect(xFood*snakeSize, yFood*snakeSize, snakeSize, snakeSize);
+    
+            if (xFood === snake[0][0] && yFood === snake[0][1]){
+                makeFood = true;
+            }  
+        } 
+
+        function snakeRender(){
+        
+            for(i=0; i < snake.length; i++){
+            ctx.fillStyle = 'red';
+            ctx.fillRect(snake[i][0]*snakeSize, snake[i][1]*snakeSize, snakeSize, snakeSize);            
+            }
+            
+            if (snake[0][0] === xFood && snake[0][1] === yFood){
+                //snake.pop();
+                snake.push([xFood,yFood]); //push
+                //snake.pop();
+                console.log(snake);
+            }
+
+            let newHeadX = snake[0][0] + xMove;
+            let newHeadY = snake[0][1] + yMove;   
+            snake.unshift([newHeadX,newHeadY]);
+            snake.pop();
+
+            for(i=1; i < snake.length; i++){
+                if(newHeadX === snake[i][0] && newHeadY === snake[i][1]){
+                    window.alert("death");
+                }
+            }
+            if (snake.length > 5){
+                speed = speed + 2;
+            }
+        }
+
+        function wall(){
+            for(i=0; i < snake.length; i++){
+                if (snake[i][0] >= width/snakeSize){
+                    snake[i][0] = 0;
+                }    
+                if(snake[i][1] >= width/snakeSize){
+                    snake[i][1] = 0;
+                }
+                if (snake[i][0] < 0){
+                    snake[i][0] = width/snakeSize;
+                }    
+                if(snake[i][1] < 0){
+                    snake[i][1] = width/snakeSize;
+                }
+            }
+        }
+
+        function movement(pace) {        
+            document.onkeydown = function(event){
+            switch (event.keyCode) {
+                case 37:
+                        xMove = -Math.abs(pace); //left
+                        yMove = 0;
+                    break;
+                case 38:
+                        xMove = 0;
+                        yMove = -Math.abs(pace); //up
+                    break;
+                case 39:
+                        xMove = pace;
+                        yMove = 0; //right
+                    break;
+                case 40:
+                        xMove = 0;
+                        yMove = pace; //down
+                    break;
+                }
+              
+             }
+        }; 
+        
+        function eatFood(){
+
+        }
+
+        function run(){
+            ctx.clearRect(0,0,1000,1000);
+            setTimeout(run,100);
+            food();
+            wall();
+            snakeRender();
+            
+            
+        }
+        run();
+        </script>
+    </body>
+</html>

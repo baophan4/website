@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body {
+                background-color:rgba(20, 19, 19, 1);
+                color:white;
+                font-size:64px;
+                text-align:center;
+            }
+            h1 {
+                color:blue;
+            }
+            table {
+                border-collapse: collapse;
+                margin:0 auto;
+                font-size:100px;
+            }
+            table, th, td {
+                border: 1px solid white;
+            }
+            td{
+                width: 200px;
+                height: 200px;
+                text-align:center;
+            }
+            .prompt{
+                color:green;
+            }
+            #locator{position: absolute; visibility: visble; left:1000px: top:3000px; z-index:1000;
+            }
+            .winText{
+                color:orange;
+                font-size: 36px;       
+            }
+        </style> 
+        <title> Tic-Tac-Toe</title>
+        
+    </head>
+    <body>
+        <h1>TIC-TAC-TOE</h1>
+        <p class="prompt">Let's Play</p>
+        <p class = "winText">
+            X win =  <span id = "pointsX"></span><br></br>
+            O win =  <span id = "pointsO"></span>
+        </p>
+        <table>
+            <tr> <!--row 1-->
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            <tr><!--row 2-->
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            <tr><!--row 3-->
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+        </table>
+        
+        <div id="locator">
+            <img src="http://placekitten.com/200/200"><br>
+        </div>
+        <script>
+            // javascript
+            var winners = new Array();
+            var currentPlayer = 0;
+            var pointsX = 0;    // player 1 points
+            var pointsO = 0;    // player 2 points
+            var xTurn = true;
+            
+            //document.querySelector('h1').innerHTML ='HELLO';
+            var tds = document.querySelectorAll('td'); 
+            console.log(tds);
+            var table = document.querySelector('table');
+            table.addEventListener("click", userClick);
+            
+                         
+            //function for x and o
+            function userClick(event) {
+                
+                if (xTurn){
+                
+                   if (event.target.innerHTML === "o"){
+                        xTurn = false;
+                   }
+                   else{
+                    event.target.innerHTML = "x";
+                   } 
+                }
+                else if (!xTurn){
+                 
+                    if (event.target.innerHTML === "x"){
+                        xTurn = true;
+                    }
+                    else{
+                    event.target.innerHTML = "o"; 
+                    } 
+                }
+                checkWinner();
+                xTurn = !xTurn;
+               console.log('click',event.target); 
+                //console.log('click'); 
+            }
+           
+            //function for x Winning
+            function checkWinner(){
+              var playerOWon = checkPlayerWon("o");
+              var playerXWon = checkPlayerWon("x");
+
+              if (playerOWon){               
+                 alert("o wins");
+                 resetArray();
+                 pointsO ++ ;
+                 //console.log(pointsO); 
+                }
+                if (playerXWon){               
+                 alert("x wins");
+                 resetArray();
+                 pointsX ++ ;
+                 //console.log(pointsX);
+                }
+                document.getElementById("pointsX").innerHTML = pointsX;
+                document.getElementById("pointsO").innerHTML = pointsO;       
+            }
+
+            function checkPlayerWon(player){
+
+                return  checkCellValue(0,player) && checkCellValue(1,player) && checkCellValue(2,player) ||
+                        checkCellValue(3,player) && checkCellValue(4,player) && checkCellValue(5,player) ||
+                        checkCellValue(6,player) && checkCellValue(7,player) && checkCellValue(8,player) ||
+                        checkCellValue(0,player) && checkCellValue(3,player) && checkCellValue(6,player) ||
+                        checkCellValue(1,player) && checkCellValue(4,player) && checkCellValue(7,player) ||
+                        checkCellValue(2,player) && checkCellValue(5,player) && checkCellValue(8,player) ||
+                        checkCellValue(0,player) && checkCellValue(4,player) && checkCellValue(8,player) ||
+                        checkCellValue(2,player) && checkCellValue(4,player) && checkCellValue(6,player) || 
+                        false
+            }
+            
+            function checkCellValue(num,player){
+                 return tds[num].innerHTML === player;
+             
+            }
+            
+            function resetArray(){
+                tds.forEach(function(element) { element.innerHTML = ''});
+            }
+      
+        </script>
+
+    </body>
+</html>

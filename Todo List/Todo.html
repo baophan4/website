@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                background-color: lightblue;
+                color:black;
+                font-size:32px;
+                text-align:center;
+            }
+            div{
+                background-color: red;
+                width: 300px;
+                margin:0 auto;
+                font-size:24px;
+
+
+            }
+            div:hover{
+                background-color: gray;
+                margin:0 auto;
+
+            }
+            .rightSide{
+                float:right;
+                height: 100%;
+                background-color: white;
+
+            }
+
+
+        </style>
+        <title>List Baby</title>
+    </head>
+    <body>
+        <H1>Todo List</H1> 
+        <input type="text" id="myText" value="Enter Task.">
+        <button onclick="addItem()">Add</button>
+       
+        <script>
+
+          //  function 
+            function addItem() {
+                let x = document.getElementById("myText").value;
+                let span =  document.createElement('span');
+                let listItem = document.createElement('div');
+                let button = document.createElement('button')
+                //.classList.add("rightSide");
+                button.className = 'rightSide';
+                document.body.append(listItem);
+                listItem.append(span);
+                listItem.append(button);
+                span.innerHTML = x;
+                button.innerHTML = 'x';
+                button.addEventListener("click",function(){
+                    removeElement(listItem);
+                });
+                span.addEventListener("click",function(){
+                    strikeText(span,x);                   
+                });
+                //element.innerHTML = x;
+               // debugger;
+                
+              //  document.getElementById("hello").innerHTML = x;
+            } 
+            
+            
+            function removeElement(listItem) {
+                listItem.parentNode.removeChild(listItem);
+            }
+
+            function strikeText(span,x){
+                
+                    if (span.style.textDecoration != "line-through"){
+                        span.style.textDecoration = "line-through";
+                        crossOut = false;
+                    }
+                    else {
+                        span.style.textDecoration = "none";
+                        crossOut = true;
+                    }
+            }
+
+
+        </script>
+    </body>
+    
+
+</html>
